@@ -12,7 +12,9 @@ This application is a __3-tier__ application where we have :
 3. a database : __MySQL__. 
 
 ## Deployement Process
-We can deploy this application in 3 different ways: deployment on a Centos 7 server, deployment with Docker, and deployment with Docker-Compose. 
+We can deploy this application in 3 different ways: deployment on a Centos 7 server, deployment with Docker, and deployment with Docker-Compose.
+
+### Note : use a server with at least 2GB of RAM
 
 
 # 1- Deploy FastFoot App, using a single Centos 7 serveur
