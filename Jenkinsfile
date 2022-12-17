@@ -134,38 +134,20 @@ pipeline {
             }
         }
 
-        //Backend Helm Chart push as tgz file
+        //Project Helm Chart push as tgz file
         stage("pushing the Backend helm charts to nexus"){
             steps{
                 script{
                     withCredentials([string(credentialsId: 'nexus-pass', variable: 'docker_password')]) {
-                          dir('fastfood_backend/') {
-                             sh '''
-                                 helmversion=$( helm show chart helm_fastfood_back | grep version | cut -d: -f 2 | tr -d ' ')
-                                 tar -czvf  helm_fastfood_back-${helmversion}.tgz helm_fastfood_back/
-                                 curl -u jenkins-user:$docker_password http://139.177.192.139:8081/repository/fastfood-helm-rep/ --upload-file helm_fastfood_back-${helmversion}.tgz -v
-                            '''
-                          }
+                       
+                        sh '''
+                            helmversion=$( helm show chart fastfoodapp | grep version | cut -d: -f 2 | tr -d ' ')
+                            tar -czvf  fastfoodapp-${helmversion}.tgz fastfoodapp/
+                            curl -u jenkins-user:$docker_password http://139.177.192.139:8081/repository/fastfood-helm-rep/ --upload-file fastfoodapp-${helmversion}.tgz -v
+                        '''
                     }
                 }
             }
-        }
-
-        //Frontend Helm Chart push as tgz file
-        stage("pushing the Frontend helm charts to nexus"){
-            steps{
-                script{
-                    withCredentials([string(credentialsId: 'nexus-pass', variable: 'docker_password')]) {
-                          dir('fastfood_frontend/') {
-                             sh '''
-                                 helmversion=$( helm show chart helm_fastfood_back | grep version | cut -d: -f 2 | tr -d ' ')
-                                 tar -czvf  helm_fastfood_front-${helmversion}.tgz helm_fastfood_front/
-                                 curl -u jenkins-user:$docker_password http://139.177.192.139:8081/repository/fastfood-helm-rep-front/ --upload-file helm_fastfood_front-${helmversion}.tgz -v
-                            '''
-                          }
-                    }
-                }
-            }
-        }      
+        }     
     }
 }
