@@ -12,7 +12,7 @@ pipeline {
             steps {
                 dir('./fastfood_BackEnd/') {
                     withSonarQubeEnv('SonarServer') {
-                        sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=teephoenix_fastfood'
+                        sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=teephoenix_fastfoodapp'
                         }
                 }
             }
