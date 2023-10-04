@@ -1,4 +1,4 @@
-# fastfoodapp
+# fastfood
 ### fast food application project using micro-services
 
 This web-app is helpful to display various services, food items offered at each branch separately where Admins can add,edit and remove the food items for their specific branches and Customers can search,sort & filter the food items and order the food online & track the placed orders.
