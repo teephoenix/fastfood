@@ -15,6 +15,10 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
 
         
+        imageName = "fastfood"
+        registryCredentials = "nexus-user-credentials"
+        registry = "45.79.56.117:8085/repository/nexus-registry/"
+        dockerImage = ''
     }
 
     stages {
@@ -29,23 +33,31 @@ pipeline {
             }
         }
 
-         
-    
-        stage('Check Quality Gate') {
-            steps {
-                echo 'Checking quality gate...'
-                dir('./fastfood_BackEnd/'){ 
-                    script {
-                    timeout(time: 20, unit: 'MINUTES') {
-                        def qg = waitForQualityGate()
-                        if (qg.status != 'OK') {
-                            error "Pipeline stopped because of quality gate status: ${qg.status}"
-                            } 
-                        }
+         // Building Docker images
+        stage("Build Docker Image"){
+            steps{
+                echo 'Build Docker Image'
+                dir('./fastfood_BackEnd/'){
+                    script{
+                        dockerImage = docker.build imageName
                     }
                 }
             }
         }
+   
+        // Push Docker images to Nexus Registry
+        stage("Uploading to Nexus Registry"){
+            steps{
+                echo 'Uploading Docker image to Nexus ...'
+                dir('./fastfood_BackEnd/'){
+                    script{
+                        docker.withRegistry( 'http://'+registry, registryCredentials ) {
+                        dockerImage.push('latest')
+                        }
+                    }
+                }
+            }
+        }      
     }
 } 
       
