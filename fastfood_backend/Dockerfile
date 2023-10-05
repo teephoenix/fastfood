@@ -1,5 +1,5 @@
 FROM maven:3.8.4 AS maven
-LABEL MAINTAINER="hermannchefouet@gmail.com"
+LABEL MAINTAINER="tomiwamalomo@gmail.com"
 
 WORKDIR /usr/src/app
 COPY . /usr/src/app
